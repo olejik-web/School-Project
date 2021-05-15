@@ -713,7 +713,8 @@ def clear_database():
 def main():
     db_session.global_init("db/database.db")
     # clear_database()
-    app.run(host='127.0.0.1', port=8080)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)    
 
 
 if __name__ == '__main__':
