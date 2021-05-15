@@ -107,7 +107,6 @@ def load_user(user_id):
 
 
 @app.route('/user_info/<int:user_id>')
-@login_required
 def user_info(user_id):
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.id == user_id).first()
