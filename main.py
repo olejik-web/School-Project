@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import os
 
 from flask import Flask
@@ -7,7 +9,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "Здесь в будущем появится Книга Памяти МОУ СОШ №41"
+    return "Р—РґРµСЃСЊ РІ Р±СѓРґСѓС‰РµРј РїРѕСЏРІРёС‚СЃСЏ РљРЅРёРіР° РџР°РјСЏС‚Рё РњРћРЈ РЎРћРЁ в„–41"
 
 
 if __name__ == '__main__':
