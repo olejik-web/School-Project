@@ -1,0 +1,171 @@
+{% extends 'base.html' %} {% block content %} {% if current_user.is_authenticated %}
+<h2 id='h2'>Мой профиль</h2>
+<div id='profile-container' class="container-fluid bg-light">
+    <div class="row">
+        <div class="col-6" id='profile-1'>
+            <div class="list-group" id='list-group'><a href="/create_page/article" class="list-group-item list-group-item-action">Написать статью</a>
+             <a href="/create_page/story" class="list-group-item list-group-item-action">Написать историю</a> <a href="/create_page/page_of_book" class="list-group-item list-group-item-action" tabindex="-1" aria-disabled="true">Написать страницу в книгу памяти</a> <a href="/edit_user/{{ current_user.id }}" class="list-group-item list-group-item-action" tabindex="-1" aria-disabled="true">Изменить профиль</a> {% if current_user.type == 'admin' %} <a href="/create_page/news" class="list-group-item list-group-item-action" tabindex="-1" aria-disabled="true">Написать новость</a> {% endif %} 
+             {% if current_user.type == 'admin' %} 
+                 <a href="/moderation_panel" class="list-group-item list-group-item-action" tabindex="-1" aria-disabled="true">Открыть панель модерации.</a> 
+            {% endif %} 
+            <a href="/logout" class="list-group-item list-group-item-action" tabindex="-1" aria-disabled="true">Выход</a></div>
+        </div>
+        <div class="col-6 profile" id='profile-photo-1'>
+            <div class="col row profile-info">
+                <div class="row">
+                    <!--<h3 id='profile-header'>Фото</h3>-->{% if not profile_image %}
+                        <img src="../static/img/logo.png" class="img-fluid" id="profile-photo" alt="...">
+                    {% else %}
+                        <img src="../{{ profile_image }}" class="img-fluid" id="profile-photo" alt="...">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col profile" id='profile-photo-2'>
+            <!--<h3 id='profile-header'>Фото</h3>-->
+            {% if not profile_image %}
+                <img src="../static/img/logo.png" class="img-fluid" id="profile-photo" alt="..."> </div>
+            {% else %}
+                <img src="../{{ profile_image }}" class="img-fluid" id="profile-photo" alt="..."> </div>
+            {% endif %}
+    </div>
+    <div class="row">
+        <div id='profile-info' class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item" id='accordion-item'>
+                <h2 class="accordion-header" id="flush-headingOne">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+        Логин
+      </button>
+    </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">{{ current_user.name }}</div>
+                </div>
+            </div>
+            <div class="accordion-item" id='accordion-item'>
+                <h2 class="accordion-header" id="flush-headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+        О себе
+      </button>
+    </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">{{ current_user.about }}</div>
+                </div>
+            </div>
+            <div class="accordion-item" id='accordion-item'>
+                <h2 class="accordion-header" id="flush-headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+        Email
+      </button>
+    </h2>
+                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">{{ current_user.email }}</div>
+                </div>
+            </div>
+            <div class="accordion-item" id='accordion-item'>
+                <h2 class="accordion-header" id="flush-headingFour">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+            Мои страницы книги
+      </button>
+    </h2>
+                <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <ul class="list-group list-group-flush"> {% for elem in pages %}
+                            <li class="list-group-item">
+                               <div id="poge-heder">
+                                    {{ elem.header }}
+                                </div>
+                                <div class="page-body">
+                                    {{ elem.about }}
+                                </div>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-start" style='margin-bottom: 10px;'>
+                                    <button id='poge-type' class="btn btn-primary me-md-2" type="button" onclick="document.location='/edit_page/page_of_book${{elem.id}}$0'">Изменить страницу</button>
+                                    <button id='poge-type' class="btn btn-primary" type="button" onclick="document.location='/delete_page/{{elem.id}}'">Удалить страницу</button>
+                                    {% if current_user.type == 'admin' %}
+                                        <button id='poge-type' class="btn btn-primary" type="button">Опубликовать</button>
+                                        {% endif %}
+                                </div>
+                            </li> {% endfor %} </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" id='accordion-item'>
+                <h2 class="accordion-header" id="flush-headingFive">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFour">
+            Мои статьи
+      </button>
+    </h2>
+                <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <ul class="list-group list-group-flush"> {% for elem in articles %}
+                            <li class="list-group-item">
+                               <div id="poge-heder">
+                                    {{ elem.header }}
+                                </div>
+                                <div class="page-body">
+                                    {{ elem.about }}
+                                </div>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-start" style='margin-bottom: 10px;'>
+                                    <button id='poge-type' class="btn btn-primary me-md-2" type="button" onclick="document.location='/edit_page/article${{elem.id}}$0'">Изменить статью</button>
+                                    <button id='poge-type' class="btn btn-primary" type="button" onclick="document.location='/delete_page/{{elem.id}}'">Удалить статью</button>
+                                    {% if current_user.type == 'admin' %}
+                                        <button id='poge-type' class="btn btn-primary" type="button">Опубликовать</button>
+                                        {% endif %}
+                                </div>
+                            </li> {% endfor %} </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" id='accordion-item'>
+                <h2 class="accordion-header" id="flush-headingFour">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+            Мои страницы из раздела "История"
+      </button>
+    </h2>
+                <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <ul class="list-group list-group-flush"> {% for elem in history %}
+                            <li class="list-group-item">
+                               <div id="poge-heder">
+                                    {{ elem.header }}
+                                </div>
+                                <div class="page-body">
+                                    {{ elem.about }}
+                                </div>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-start" style='margin-bottom: 10px;'>
+                                    <button id='poge-type' class="btn btn-primary me-md-2" type="button" onclick="document.location='/edit_page/story${{elem.id}}$0'">Изменить страницу</button>
+                                    <button id='poge-type' class="btn btn-primary" type="button" onclick="document.location='/delete_page/{{elem.id}}'">Удалить страницу</button>
+                                    {% if current_user.type == 'admin' %}
+                                        <button id='poge-type' class="btn btn-primary" type="button">Опубликовать</button>
+                                        {% endif %}
+                                </div>
+                            </li> {% endfor %} </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col" id='profile-2'>
+            <div class="list-group" id='list-group'> <a href="/create_page/article" class="list-group-item list-group-item-action">Создать статью</a> <a href="/create_page/story" class="list-group-item list-group-item-action">Написать историю</a> <a href="/create_page/page_of_book" class="list-group-item list-group-item-action" tabindex="-1" aria-disabled="true">Написать страницу в книгу памяти</a> <a href="/edit_user/{{ current_user.id }}" class="list-group-item list-group-item-action" tabindex="-1" aria-disabled="true">Изменить профиль</a> {% if current_user.id == 1 %} <a href="/create_page/news" class="list-group-item list-group-item-action" tabindex="-1" aria-disabled="true">Написать новость</a> {% endif %} 
+            <a href="/logout" class="list-group-item list-group-item-action" tabindex="-1" aria-disabled="true">Выход</a></div>
+        </div>
+    </div> {% endif %}
+</div>
+<h2 id='h2'>Пользователи</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4 news heros" style="margin: 0 auto;">
+    {% for elem in users %}
+    <div class="col">
+        <div class="card h-100"> 
+          {% if user_images[loop.index - 1] %}
+           <img src="../{{user_images[loop.index - 1]}}" class="card-img-top" alt="..." style='width: 65%; margin: 0 auto; margin-top: 10px;'>{% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{elem.name}}</h5>
+                <p class="card-text">{{elem.about}}</p>
+            </div>
+            <div style='text-align: center; margin-bottom: 10px;'>
+            <a href="/user_info/{{elem.id}}" class="btn btn-primary" style='width: 70%; margin-top: 10px; font-size: 1.2rem;'>Смотреть профиль...</a>
+            {% if current_user.id == elem.id %}
+                <a href="/edit_user/{{elem.id}}" class="btn btn-success" style='width: 70%; margin-top: 10px; font-size: 1.2rem;'>Редактировать профиль...</a>
+            {% endif %}
+            </div>
+        </div>
+    </div>{% endfor %}
+</div> {% endblock %}
