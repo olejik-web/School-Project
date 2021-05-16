@@ -240,7 +240,7 @@ def edit_news(params):
     news = db_sess.query(News).filter(News.id == news_id).first()
     main_form = NewsCreatePageForm()
     part_form = NewsPartForm()    
-    with open(news.json_page) as file:
+    with open(news.json_page, encoding="utf8") as file:
         page_json = json.load(file)    
     if main_form.is_submitted():
         news.header = main_form.header.data
@@ -262,7 +262,7 @@ def edit_news(params):
             db_sess.commit()            
         except Exception:
             pass
-        with open(news.json_page, 'w') as file:
+        with open(news.json_page, 'w', encoding="utf8") as file:
             json.dump(page_json, file, ensure_ascii=False, indent=2)        
         db_sess.commit()
         return redirect('/edit_news/{}'.format(params))
@@ -298,7 +298,7 @@ def edit_page(page_info):
     if current_user.type != 'admin':
         if page.author != current_user.id:
             return redirect('/users')
-    with open(page.json_page) as file:
+    with open(page.json_page, encoding="utf8") as file:
         page_json = json.load(file)    
     if main_form.is_submitted():
         page.header = main_form.header.data
@@ -329,7 +329,7 @@ def edit_page(page_info):
             db_sess.commit()            
         except Exception:
             pass
-        with open(page.json_page, 'w') as file:
+        with open(page.json_page, 'w', encoding="utf8") as file:
             json.dump(page_json, file, ensure_ascii=False, indent=2)        
         db_sess.commit()
         return redirect('/edit_page/{}'.format(page_info))
@@ -359,7 +359,7 @@ def read_page(page_id):
     db_sess = db_session.create_session()
     page = db_sess.query(Page).filter(Page.id == page_id).first()
     json_path = page.json_page
-    with open(json_path) as file:
+    with open(json_path, encoding="utf8") as file:
         json_file = json.load(file)
     images = [ [db_sess.query(Image).filter(
             Image.id == elem).first().path 
@@ -517,7 +517,7 @@ def create_page(page_type):
             }
             with open('article_pages/directory{}/json_file.json'.format(
                 page.id), 
-                      'w') as file:
+                      'w', encoding="utf8") as file:
                 json.dump(json_page, file, ensure_ascii=False, indent=2)
             page.json_page = 'article_pages/directory{}/json_file.json'.format(
                 page.id)    
@@ -536,7 +536,7 @@ def create_page(page_type):
             }
             with open('history_pages/directory{}/json_file.json'.format(
                 page.id), 
-                      'w') as file:
+                      'w', encoding="utf8") as file:
                 json.dump(json_page, file, ensure_ascii=False, indent=2)
             page.json_page = 'history_pages/directory{}/json_file.json'.format(
                 page.id)    
@@ -564,7 +564,7 @@ def create_page(page_type):
         }
         with open('book_pages/directory{}/json_file.json'.format(
             page.id), 
-                  'w') as file:
+                  'w', encoding="utf8") as file:
             json.dump(json_page, file, ensure_ascii=False, indent=2)
         page.json_page = 'book_pages/directory{}/json_file.json'.format(
             page.id)    
@@ -592,7 +592,7 @@ def create_page(page_type):
         }
         with open('news/directory{}/json_file.json'.format(
             page.id), 
-                  'w') as file:
+                  'w', encoding="utf8") as file:
             json.dump(json_page, file, ensure_ascii=False, indent=2)
         page.json_page = 'news/directory{}/json_file.json'.format(
             page.id)    
@@ -609,14 +609,14 @@ def adding_part(params):
         page_id = int(params.split('$')[1])
         part_num = int(params.split('$')[2])
         page = db_sess.query(Page).filter(Page.id == page_id).first()
-        with open(page.json_page) as file:
+        with open(page.json_page, encoding="utf8") as file:
             page_json = json.load(file)
         right_num = len(page_json['content'])
         tmp = page_json['content'][part_num:]
         page_json['content'] = page_json['content'][:part_num] + [
             {'header': 'Раздел{}'.format(right_num + 1), 'imgs': [], 
              'content': 'Текст раздела {}'.format(right_num + 1)}] + tmp
-        with open(page.json_page, 'w') as file:
+        with open(page.json_page, 'w', encoding="utf8") as file:
             json.dump(page_json, file, ensure_ascii=False, indent=2)
         return redirect('/edit_page/{}${}${}'.format(page_type,
             page_id, part_num))
@@ -624,14 +624,14 @@ def adding_part(params):
         news_id = int(params.split('$')[1])
         part_num = int(params.split('$')[2])
         news = db_sess.query(News).filter(News.id == news_id).first()
-        with open(news.json_page) as file:
+        with open(news.json_page, encoding="utf8") as file:
             page_json = json.load(file)
         right_num = len(page_json['content'])
         tmp = page_json['content'][part_num:]
         page_json['content'] = page_json['content'][:part_num] + [
             {'header': 'Раздел{}'.format(right_num + 1), 'imgs': [], 
              'content': 'Текст раздела {}'.format(right_num + 1)}] + tmp
-        with open(news.json_page, 'w') as file:
+        with open(news.json_page, 'w', encoding="utf8") as file:
             json.dump(page_json, file, ensure_ascii=False, indent=2)
         return redirect('/edit_news/{}${}'.format(news_id, part_num))
 
@@ -645,20 +645,20 @@ def delete_part(params):
         page_id = int(params.split('$')[1])
         part_num = int(params.split('$')[2])
         page = db_sess.query(Page).filter(Page.id == page_id).first()
-        with open(page.json_page) as file:
+        with open(page.json_page, encoding="utf8") as file:
             page_json = json.load(file)
         del page_json['content'][part_num - 1]
-        with open(page.json_page, 'w') as file:
+        with open(page.json_page, 'w', encoding="utf8") as file:
             json.dump(page_json, file)
         return redirect('/edit_page/{}${}${}'.format(page_type, page_id, 0))
     else:
         page_id = int(params.split('$')[1])
         part_num = int(params.split('$')[2])
         page = db_sess.query(News).filter(News.id == page_id).first()
-        with open(page.json_page) as file:
+        with open(page.json_page, encoding="utf8") as file:
             page_json = json.load(file)
         del page_json['content'][part_num - 1]
-        with open(page.json_page, 'w') as file:
+        with open(page.json_page, 'w', encoding="utf8") as file:
             json.dump(page_json, file)
         return redirect('/edit_news/{}${}'.format(page_id, 0))
 
@@ -668,7 +668,7 @@ def read_news(news_id):
     db_sess = db_session.create_session()
     news = db_sess.query(News).filter(News.id == news_id).first()
     json_path = news.json_page
-    with open(json_path) as file:
+    with open(json_path, encoding="utf8") as file:
         json_file = json.load(file)
     images = [ [db_sess.query(Image).filter(
             Image.id == elem).first().path 
