@@ -13,6 +13,7 @@
                 <a href="/read_page/{{elem.id}}" class="btn btn-primary" style='width: 70%; margin-top: 10px; font-size: 1.2rem;'>Читать страницу из раздела "История"...</a>
             {% if current_user.id == 1 %}
                 <a href="/edit_page/story${{elem.id}}$0" class="btn btn-success" style='width: 70%; margin-top: 10px; font-size: 1.2rem;'>Редактировать страницу из раздела История...</a>
+                <a href="/delete_page/{{elem.id}}" class="btn btn-danger" style='width: 70%; margin-top: 10px; font-size: 1.2rem;'>Удалить историю...</a>
             {% endif %}
             </div>
             <div class="card-footer"> <small class="text-muted">Last updated 3 mins ago</small> </div>

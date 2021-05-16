@@ -81,7 +81,7 @@
                                     <button id='poge-type' class="btn btn-primary me-md-2" type="button" onclick="document.location='/edit_page/page_of_book${{elem.id}}$0'">Изменить страницу</button>
                                     <button id='poge-type' class="btn btn-primary" type="button" onclick="document.location='/delete_page/{{elem.id}}'">Удалить страницу</button>
                                     {% if current_user.type == 'admin' %}
-                                        <button id='poge-type' class="btn btn-primary" type="button">Опубликовать</button>
+                                        <button id='poge-type' class="btn btn-primary" type="button" onclick="document.location='/public_page/{{elem.id}}'">Опубликовать</button>
                                         {% endif %}
                                 </div>
                             </li> {% endfor %} </ul>
@@ -108,7 +108,7 @@
                                     <button id='poge-type' class="btn btn-primary me-md-2" type="button" onclick="document.location='/edit_page/article${{elem.id}}$0'">Изменить статью</button>
                                     <button id='poge-type' class="btn btn-primary" type="button" onclick="document.location='/delete_page/{{elem.id}}'">Удалить статью</button>
                                     {% if current_user.type == 'admin' %}
-                                        <button id='poge-type' class="btn btn-primary" type="button">Опубликовать</button>
+                                        <button id='poge-type' class="btn btn-primary" type="button" onclick="document.location='/public_page/{{elem.id}}'">Опубликовать</button>
                                         {% endif %}
                                 </div>
                             </li> {% endfor %} </ul>
@@ -135,7 +135,7 @@
                                     <button id='poge-type' class="btn btn-primary me-md-2" type="button" onclick="document.location='/edit_page/story${{elem.id}}$0'">Изменить страницу</button>
                                     <button id='poge-type' class="btn btn-primary" type="button" onclick="document.location='/delete_page/{{elem.id}}'">Удалить страницу</button>
                                     {% if current_user.type == 'admin' %}
-                                        <button id='poge-type' class="btn btn-primary" type="button">Опубликовать</button>
+                                        <button id='poge-type' class="btn btn-primary" type="button" onclick="document.location='/public_page/{{elem.id}}'">Опубликовать</button>
                                         {% endif %}
                                 </div>
                             </li> {% endfor %} </ul>
